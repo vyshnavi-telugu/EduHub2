@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#5b3fd1">
+<title>EduHub</title><link rel="manifest" href="manifest.json">
+<style>
+:root{--p:#5b3fd1;--b:#1769e0;--ink:#18264a;--muted:#72809a;--bg:#f6f7fc;--line:#e6e9f2;--card:#fff}
+*{box-sizing:border-box}html,body{margin:0;background:#e9ecf5;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink)}
+button{font:inherit} .phone{width:100%;max-width:430px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow:hidden}
+.status{height:28px;background:#fff;padding:6px 18px;font-size:11px;color:#6b7890;display:flex;justify-content:space-between}
+.header{height:64px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 17px;gap:10px;position:sticky;top:0;z-index:5}
+.logo{font-size:23px;font-weight:900;background:linear-gradient(90deg,#1769e0,#783bd0);-webkit-background-clip:text;color:transparent}.grow{flex:1}
+.avatar{width:38px;height:38px;border-radius:50%;border:0;background:#eee9ff;color:#5b3fd1;font-weight:800}
+.screen{padding:16px 16px 104px;min-height:calc(100vh - 92px);overflow:auto}
+.hero{border-radius:22px;padding:20px;background:linear-gradient(135deg,#e6f2ff,#f3eaff);margin-bottom:16px}
+h1{font-size:27px;line-height:1.15;margin:3px 0 7px}h2{font-size:19px;margin:19px 0 10px}h3{font-size:16px;margin:0 0 6px}p{margin:5px 0;color:var(--muted);font-size:13px;line-height:1.45}
+.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:15px;margin:10px 0;box-shadow:0 5px 18px #25345c0b}.click{cursor:pointer}.click:active{transform:scale(.99)}
+.row{display:flex;align-items:center;gap:12px}.icon{width:43px;height:43px;border-radius:13px;background:#edf3ff;display:grid;place-items:center;font-size:20px;flex:none}.purple{background:#f0eaff}.green{background:#e5fbf1}.orange{background:#fff3de}.pink{background:#ffe9f1}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid .card{margin:0}
+.tag{display:inline-block;padding:6px 9px;background:#eef2ff;color:#4e50b8;border-radius:99px;font-size:11px;margin:3px}
+.progress{height:7px;background:#edf0f6;border-radius:99px;overflow:hidden;margin-top:9px}.progress i{display:block;height:100%;background:linear-gradient(90deg,#1769e0,#7b3bd2);border-radius:99px}
+.primary,.secondary{width:100%;padding:12px;border-radius:12px;font-weight:750;margin-top:9px}.primary{border:0;color:#fff;background:linear-gradient(90deg,#1769e0,#7040d4)}.secondary{border:1px solid #dbe1ee;background:#fff;color:#33415e}
+.back{border:0;background:none;color:#2868c0;font-weight:700;padding:2px 0 10px}
+.subject{min-height:98px}.subject .code{font-size:10px;color:#8a96a9;margin-top:2px}
+.unit{padding:14px;border:1px solid var(--line);border-radius:15px;background:#fff;margin:9px 0}.unit b{font-size:14px}.unit p{margin-top:7px}
+.chat{background:#f8f9fd;border:1px solid var(--line);border-radius:17px;padding:12px}.bubble{max-width:88%;padding:11px 13px;border-radius:14px;margin:7px 0;font-size:13px;line-height:1.45}.ai{background:#e9efff}.me{margin-left:auto;background:#6841d0;color:#fff}
+.option{padding:12px;border:1px solid var(--line);border-radius:12px;margin:8px 0;background:#fff}.option:active{background:#f0f3ff}
+.score{font-size:42px;font-weight:900;color:#6241cf}.small{font-size:11px}.muted{color:#8b96a8}
+.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:70px;background:#fff;border-top:1px solid var(--line);display:flex;z-index:10;padding-bottom:env(safe-area-inset-bottom)}
+.nav{flex:1;border:0;background:#fff;color:#7a8498;font-size:10px;padding:8px 2px}.nav strong{display:block;font-size:20px;line-height:24px}.nav.active{color:#5b3fd1;font-weight:800}
+.float{position:fixed;right:max(calc((100vw - 430px)/2 + 18px),18px);bottom:82px;width:52px;height:52px;border-radius:50%;border:0;background:linear-gradient(135deg,#1769e0,#783bd0);color:#fff;font-size:21px;box-shadow:0 8px 24px #3f3d8b44;z-index:9}
+.toast{position:fixed;left:50%;bottom:150px;transform:translateX(-50%);background:#18264a;color:#fff;padding:10px 14px;border-radius:12px;font-size:12px;z-index:20;max-width:86%;text-align:center}
+@media(min-width:500px){.phone{box-shadow:0 20px 70px #24325230;min-height:900px}.bottom,.float{position:absolute}}
+</style>
+</head>
+<body>
+<div class="phone">
+<div class="status"><span>9:41</span><span>▮▮▮  Wi‑Fi  🔋</span></div>
+<header class="header"><button class="avatar" onclick="page('profile')">M</button><div class="logo">EduHub</div><div class="grow"></div><button class="avatar" onclick="switchLayer()">⇄</button></header>
+<main class="screen" id="app"></main>
+<button class="float" onclick="page('notes')">📝</button>
+<nav class="bottom">
+<button class="nav active" onclick="page(layer==='academic'?'home':'multiHome')"><strong>⌂</strong>Home</button>
+<button class="nav" onclick="page(layer==='academic'?'subjects':'explore')"><strong>▦</strong><span id="nav2">Subjects</span></button>
+<button class="nav" onclick="page(layer==='academic'?'aira':'multiAira')"><strong>✦</strong>Aira</button>
+<button class="nav" onclick="page(layer==='academic'?'learning':'communities')"><strong>◎</strong><span id="nav4">Progress</span></button>
+</nav>
+</div>
+<script>
+if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}
+let layer='academic',stack=[];
+const subjects=[
+["A14301","Discrete Mathematics & Graph Theory","DMGT","📐","dmgt"],
+["A12301","Universal Human Values – Understanding Harmony","UHV","🌱","uhv"],
+["A10402","Digital Logic and Computer Organization","DLCO","💻","dlco"],
+["A15302T","Advanced Data Structures & Algorithms Analysis","ADSAA","🌳","adsaa"],
+["A15303T","Database Management Systems","DBMS","🗄️","dbms"],
+["A15302P","Advanced Data Structures & Algorithms Analysis Lab","ADSAA Lab","🧪","labads"],
+["A15303P","Database Management Systems Lab","DBMS Lab","🧪","labdb"],
+["A15304","Python Programming","Python","🐍","python"],
+["A19301","Environmental Science","EVS","🌍","evs"]
+];
+const dbms=[
+["UNIT I","Introduction; database vs file system; database users; advantages and applications; data models; schema, instance and data independence; three-tier schema architecture; database structure; centralized and client-server architecture; ER model: entities, attributes, entity sets, relationships, constraints, subclasses, superclasses, inheritance, specialization, generalization and ER diagrams."],
+["UNIT II","Relational model; domain, attribute, tuple, relation; null values; domain/key/integrity constraints; relational algebra; relational calculus; basic SQL; schema and data types; CREATE and ALTER; INSERT, DELETE and UPDATE."],
+["UNIT III","SQL querying with SELECT and WHERE; arithmetic and logical operations; date/time, numeric and string functions; relationships and key/integrity constraints; nested and sub queries; grouping; aggregation; ordering; joins; views; relational set operations."],
+["UNIT IV","Schema refinement and normalization; functional dependency; normal forms; lossless join and dependency-preserving decomposition; 1NF, 2NF, 3NF; surrogate key; BCNF; multivalued dependency; 4NF; 5NF."],
+["UNIT V","Transactions; transaction states; ACID; concurrent executions; serializability; recoverability; isolation; testing serializability; lock-based, timestamp-based and optimistic protocols; deadlocks; failure classification; storage, recovery and atomicity; recovery algorithm; indexing; B+ trees and hash-based indexing."]
+];
+const adsaa=[
+["UNIT I","Algorithm analysis; space and time complexity; asymptotic notations; AVL trees—creation, insertion, deletion and applications; B-trees—creation, insertion, deletion and applications."],
+["UNIT II","Heap trees / priority queues; min and max heaps; graphs—terminology, representations, search and traversals, connected and biconnected components; divide and conquer; Quick Sort; Merge Sort; Strassen matrix multiplication; Convex Hull."],
+["UNIT III","Greedy method; job sequencing; knapsack; minimum-cost spanning trees; single-source shortest paths; dynamic programming; all-pairs shortest paths; Bellman-Ford; optimal BST; 0/1 knapsack; string editing; travelling salesperson."],
+["UNIT IV","Backtracking; 8-Queens; sum of subsets; graph coloring; 0/1 knapsack; branch and bound; 0/1 knapsack; travelling salesperson."],
+["UNIT V","NP-Hard and NP-Complete concepts; Cook’s theorem; Clique Decision Problem; Chromatic Number Decision Problem; TSP decision problem; NP-hard scheduling problems; identical processors; job shop scheduling."]
+];
+const dmgt=[
+["UNIT I","Mathematical Logic: statements, notation, connectives, well-formed formulas, tautology, duality, equivalence, implication, normal forms, inference theory, predicate calculus."],
+["UNIT II","Set theory; inclusion-exclusion; pigeonhole principle; functions; composition; inverse and recursive functions; lattices; algebraic structures; semigroups, monoids, groups, subgroups, homomorphism and isomorphism."],
+["UNIT III","Elementary combinatorics; combinations and permutations; repetitions; constrained repetitions; binomial coefficients; binomial and multinomial theorems."],
+["UNIT IV","Generating functions; calculating coefficients; recurrence relations; substitution and generating functions; characteristic roots; inhomogeneous recurrence relations."],
+["UNIT V","Graphs; isomorphism and subgraphs; trees; spanning trees; directed trees; binary trees; planar graphs; Euler formula; multigraphs; Euler circuits; Hamiltonian graphs."]
+];
+function page(k){stack.push(k);render(k)}
+function back(){stack.pop();render(stack[stack.length-1]||'home')}
+function switchLayer(){layer=layer==='academic'?'multi':'academic';stack=[];render(layer==='academic'?'home':'multiHome')}
+function toast(t){let x=document.createElement('div');x.className='toast';x.textContent=t;document.body.appendChild(x);setTimeout(()=>x.remove(),1600)}
+function headerBack(){return `<button class="back" onclick="back()">← Back</button>`}
+function render(k){
+let a=document.getElementById('app');
+document.getElementById('nav2').textContent=layer==='academic'?'Subjects':'Explore';
+document.getElementById('nav4').textContent=layer==='academic'?'Progress':'Groups';
+let v=views[k]||views.home;a.innerHTML=v; a.scrollTop=0;
+}
+const views={
+home:`<section class="hero"><h1>Good morning, Mounika 👋</h1><p>Your academic space — organized around <b>your actual syllabus</b>.</p><div class="tag">B.Tech CSE</div><div class="tag">II Year • I Sem</div><div class="tag">R23</div></section>
+<div class="card"><div class="row"><div class="icon purple">📚</div><div><b>Academic Syllabus</b><p>All your semester subjects in one place.</p></div></div><button class="primary" onclick="page('subjects')">Open My Subjects</button></div>
+<h2>Continue Learning</h2><div class="card click" onclick="page('subject_dbms')"><div class="row"><div class="icon">🗄️</div><div style="flex:1"><b>DBMS — ER Model</b><p>Unit I • Continue topic</p><div class="progress"><i style="width:68%"></i></div></div><b>68%</b></div></div>
+<h2>Quick Access</h2><div class="grid"><div class="card click" onclick="page('aira')"><div class="icon green">✦</div><b>Aira</b><p>Explain any topic.</p></div><div class="card click" onclick="page('practice')"><div class="icon orange">📝</div><b>Practice</b><p>Quiz & evaluation.</p></div><div class="card click" onclick="page('papers')"><div class="icon pink">📄</div><b>Question Papers</b><p>Previous-year papers.</p></div><div class="card click" onclick="page('notes')"><div class="icon purple">🗒️</div><b>Notes</b><p>Floating anywhere.</p></div></div>`,
+
+subjects:`${headerBack()}<h1>My Subjects</h1><p>II Year • I Semester • B.Tech CSE • R23</p>${subjects.map(s=>`<div class="card subject click" onclick="page('subject_${s[4]}')"><div class="row"><div class="icon">${s[3]}</div><div style="flex:1"><b>${s[1]}</b><div class="code">${s[0]} • ${s[2]}</div><p>Open syllabus, topics, Aira, practice & questions</p></div><span>›</span></div></div>`).join('')}`,
+
+subject_dbms:subjectPage("Database Management Systems","A15303T","🗄️",dbms),
+subject_adsaa:subjectPage("Advanced Data Structures & Algorithms Analysis","A15302T","🌳",adsaa),
+subject_dmgt:subjectPage("Discrete Mathematics & Graph Theory","A14301","📐",dmgt),
+subject_uhv:genericSubject("Universal Human Values – Understanding Harmony","A12301","🌱"),
+subject_dlco:genericSubject("Digital Logic and Computer Organization","A10402","💻"),
+subject_labads:genericSubject("Advanced Data Structures & Algorithms Analysis Lab","A15302P","🧪"),
+subject_labdb:genericSubject("Database Management Systems Lab","A15303P","🧪"),
+subject_python:genericSubject("Python Programming","A15304","🐍"),
+subject_evs:genericSubject("Environmental Science","A19301","🌍"),
+
+practice:`${headerBack()}<h1>Practice</h1><p>Choose a subject or topic, then let Aira generate questions.</p><div class="card"><b>Question type</b><div class="tags"><span class="tag">2 Marks</span><span class="tag">5 Marks</span><span class="tag">10 Marks</span><span class="tag">Mixed</span></div></div><div class="card click" onclick="page('quiz')">⚡ <b>Quick Quiz</b><p>5 questions • instant result</p></div><div class="card click" onclick="page('answer')">✍️ <b>Answer Practice</b><p>Type, upload photo or use voice.</p></div>`,
+
+quiz:`${headerBack()}<h1>Aira Questionnaire</h1><p>DBMS • ER Model • Question 1 of 5</p><div class="card"><b>What does an entity represent in an ER model?</b></div>${["A real-world object or concept","A SQL command","A programming language","A database backup"].map((x,i)=>`<div class="option" onclick="toast('${i===0?'Correct ✓':'Try again'}')">${x}</div>`).join('')}<button class="primary" onclick="page('result')">Submit</button>`,
+result:`${headerBack()}<h1>Your Result</h1><div class="card"><div class="score">8/10</div><b>Good understanding.</b><p>Aira identified one area for revision.</p></div><div class="card"><b>Improve next</b><p>Relationships, cardinality and ER constraints.</p></div><button class="primary" onclick="page('airaTopic')">Ask Aira to Explain</button>`,
+
+aira:`${headerBack()}<h1>Aira ✦</h1><p>Ask about the current academic context, topic or question.</p><div class="card click" onclick="page('airaTopic')">📖 <b>Explain a topic</b><p>English • తెలుగు • Tanglish • Hindi • any supported language</p></div><div class="card click" onclick="page('practice')">📝 <b>Test me</b><p>Generate a questionnaire.</p></div><div class="card click" onclick="page('papers')">📄 <b>Analyze papers</b><p>Repeated questions and patterns.</p></div>`,
+airaTopic:`${headerBack()}<h1>Aira — ER Model</h1><div class="tags"><span class="tag">English</span><span class="tag">తెలుగు</span><span class="tag">Tanglish</span><span class="tag">Any language</span></div><div class="chat"><div class="bubble ai">🤖 ER Model ni simple ga explain cheyyala?</div><div class="bubble me">Tanglish lo explain cheyyi.</div><div class="bubble ai">Sure! ER Model ante database lo real-world objects ni entities ga represent chesi, vatiki madhya relationships ni diagram form lo chupinche method.</div><div class="bubble me">Now test me.</div><div class="bubble ai">Sure. I'll give you questions based on what we just learned.</div></div><button class="primary" onclick="page('quiz')">Start Questionnaire</button>`,
+
+papers:`${headerBack()}<h1>Previous Question Papers</h1><p>College / university / regulation-specific papers where available.</p><div class="card click" onclick="page('paper')"><b>2025 • DBMS</b><p>Regular • 70 marks • View / attempt</p></div><div class="card click" onclick="page('paper')"><b>2024 • DBMS</b><p>Regular • 70 marks • View / attempt</p></div><div class="card click" onclick="page('analysis')">✦ <b>Aira Paper Analysis</b><p>Repeated questions • frequency • topic patterns</p></div>`,
+paper:`${headerBack()}<h1>DBMS — Previous Paper</h1><div class="card"><b>Question paper mode</b><p>Attempt the same paper under a timer, then get marks and detailed evaluation.</p><hr><p>• ER Model</p><p>• Normalization</p><p>• SQL</p><p>• Transactions & concurrency</p></div><button class="primary" onclick="toast('Timed test started')">Start Same-Paper Test</button>`,
+analysis:`${headerBack()}<h1>Aira Paper Analysis</h1><div class="card"><b>Repeated questions</b><p>Questions that appear across the available papers are grouped by topic.</p></div><div class="card"><b>Unit frequency</b><p>Unit-wise question distribution and important areas.</p></div><div class="card"><b>Preparation plan</b><p>Aira recommends what to revise and which question types to practice.</p></div>`,
+
+answer:`${headerBack()}<h1>Answer Practice</h1><p>Explain the ER Model with a suitable example.</p><div class="card"><div style="height:130px;border:1px dashed #cbd5e1;border-radius:13px;padding:14px;color:#8b96a8">Write your answer here…</div><div class="tags"><span class="tag">⌨ Type</span><span class="tag">📷 Photo</span><span class="tag">🎤 Voice</span></div></div><button class="primary" onclick="page('evaluation')">Submit for Aira Evaluation</button>`,
+evaluation:`${headerBack()}<h1>Aira Evaluation</h1><div class="card"><div class="score">7/10</div><b>Good answer — improve two points.</b></div><div class="card"><b>✓ Strengths</b><p>Definition and example are correct.</p></div><div class="card"><b>⚠ Improve</b><p>Add relationship types and cardinality.</p></div>`,
+
+notes:`${headerBack()}<h1>Floating Notes</h1><p>Your notes are available from anywhere in EduHub.</p><div class="card"><b>🗒️ DBMS — ER Model</b><p>Entity = real-world object/concept. Relationship connects entities.</p></div><div class="card"><b>📌 Quick Idea</b><p>Remember to revise Unit IV normalization.</p></div><button class="primary" onclick="toast('New floating note created')">＋ Add Note</button>`,
+
+learning:`${headerBack()}<h1>My Learning</h1><div class="card"><b>Semester progress</b><div class="progress"><i style="width:64%"></i></div><p>64% learning progress</p></div><div class="grid"><div class="card"><b>124</b><p>Questions</p></div><div class="card"><b>82%</b><p>Average</p></div><div class="card"><b>12</b><p>Weak topics</p></div><div class="card"><b>18h</b><p>Learning time</p></div></div>`,
+
+multiHome:`<section class="hero"><h1>Multipurpose EduHub 🌐</h1><p>Not limited to your academic syllabus. Learn, explore, ask, create and connect.</p></section><div class="card"><b>What do you want to learn?</b><p>Ask anything — technology, business, English, general knowledge, skills, current topics and more.</p><button class="primary" onclick="page('explore')">Explore Topics</button></div><div class="grid"><div class="card click" onclick="page('explore')">🔎<b> Explore</b><p>New topics & skills.</p></div><div class="card click" onclick="page('communities')">👥<b> Communities</b><p>Find people.</p></div><div class="card click" onclick="page('ideas')">💡<b> Ideas</b><p>Share an idea.</p></div><div class="card click" onclick="page('collab')">🤝<b> Collaborate</b><p>Build together.</p></div></div><div class="card"><b>Examples</b><p>“Teach me a new English word.”<br>“Explain GST.”<br>“Help me develop my business idea.”<br>“What is blockchain?”<br>“Help me plan a project.”</p></div>`,
+
+explore:`${headerBack()}<h1>Explore</h1><p>General learning — no academic syllabus hierarchy.</p><div class="card">🔎 <b>Search any topic</b><p>Examples: DBMS indexing, marketing, AI agents, business, English vocabulary…</p></div><div class="grid"><div class="card">💻 Tech</div><div class="card">💼 Business</div><div class="card">🗣️ Languages</div><div class="card">🎨 Creative</div><div class="card">🌱 Sustainability</div><div class="card">📈 Career</div></div>`,
+communities:`${headerBack()}<h1>Communities</h1><p>Interest-based groups for learning and connection.</p><div class="card"><b>💻 Developers</b><p>Build and learn together.</p><button class="secondary" onclick="toast('Joined community')">Join</button></div><div class="card"><b>🚀 Startup & Innovation</b><p>Ideas, feedback and founders.</p><button class="secondary" onclick="toast('Joined community')">Join</button></div><div class="card"><b>🇮🇳 India Development</b><p>Ideas for real-world impact.</p><button class="secondary" onclick="toast('Joined community')">Join</button></div>`,
+ideas:`${headerBack()}<h1>Ideas</h1><p>Post an idea and find people interested in it.</p><div class="card"><b>💡 Reduce food waste in college canteens</b><p>“I want to build a system that predicts demand and reduces daily waste.”</p><span class="tag">124 interested</span><span class="tag">32 comments</span><button class="primary" onclick="toast('Interest recorded')">I'm Interested</button></div><button class="secondary" onclick="toast('Idea composer opened')">＋ Post My Idea</button>`,
+collab:`${headerBack()}<h1>Collaboration</h1><p>Idea → people → project.</p><div class="card"><b>🤝 Find collaborators</b><p>Developer • Designer • Business • Domain expert</p></div><div class="card"><b>Project Workspace</b><p>Tasks • files • discussion • milestones</p><button class="primary" onclick="toast('Workspace opened')">Open Workspace</button></div>`,
+multiAira:`${headerBack()}<h1>Aira — Multipurpose</h1><div class="chat"><div class="bubble me">Help me turn my business idea into a project.</div><div class="bubble ai">Sure. Tell me the problem, target users and the outcome you want. I'll help you refine it step-by-step.</div></div><button class="primary" onclick="toast('Aira is ready')">Continue</button>`,
+profile:`${headerBack()}<h1>Profile</h1><div class="card"><b>Personal details</b><p>Name • Age • Language • Interests • Learning preferences</p></div><div class="card"><b>Academic details</b><p>College • University • Course • Branch • Year • Semester • Regulation</p></div><div class="card"><b>Account separation</b><p>Academic profile and multipurpose activity can be organized separately.</p></div>`
+};
+function subjectPage(name,code,ico,units){return `${headerBack()}<h1>${ico} ${name}</h1><p>${code} • Academic syllabus</p><div class="card"><b>Topic tools</b><div class="tags"><span class="tag">Aira</span><span class="tag">Quiz</span><span class="tag">2/5/10 Marks</span><span class="tag">Notes</span><span class="tag">Past Questions</span></div></div>${units.map((u,i)=>`<div class="unit click" onclick="page('topic_${code}_${i}')"><b>${u[0]}</b><p>${u[1]}</p></div>`).join('')}` }
+function genericSubject(name,code,ico){return `${headerBack()}<h1>${ico} ${name}</h1><p>${code} • Academic syllabus</p><div class="card"><b>Five-unit structure</b><p>Each subject opens its official syllabus, unit-wise topics, Aira explanation, practice, notes and question-paper tools.</p></div>${[1,2,3,4,5].map(n=>`<div class="unit click" onclick="toast('Unit ${n} opened')"><b>UNIT ${n}</b><p>Open official unit topics and learning tools.</p></div>`).join('')}`}
+
+Object.keys(views).forEach(k=>{if(k.startsWith('topic_'))delete views[k]});
+
+
+function openTopic(code,i){
+ let units=code==='A15303T'?dbms:code==='A15302T'?adsaa:dmgt;
+ let u=units[i]; page('topicTemp');
+ document.getElementById('app').innerHTML=`${headerBack()}<h1>${u[0]}</h1><p>${u[1]}</p>
+ <div class="card"><b>Learn this topic with Aira</b><p>Choose English, Telugu, Tanglish or another supported language.</p><button class="primary" onclick="page('airaTopic')">Explain with Aira</button></div>
+ <div class="grid"><div class="card click" onclick="page('quiz')">📝<b> Quiz</b><p>Check understanding</p></div><div class="card click" onclick="page('answer')">✍️<b> Answer</b><p>Get evaluated</p></div><div class="card click" onclick="page('notes')">🗒️<b> Notes</b><p>Save this</p></div><div class="card click" onclick="page('papers')">📄<b> Questions</b><p>Past questions</p></div></div>`;
+}
+const oldPage=page; page=function(k){ if(k.startsWith('topic_')){let p=k.split('_');openTopic(p[1],Number(p[2]));return} oldPage(k)};
+render('home');
+
+</script>
+</body></html>
